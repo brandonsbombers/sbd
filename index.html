@@ -15,18 +15,24 @@
 <main>
 
   <section class="dashboard">
-    <div class="card">
-      <h2>Squat</h2>
-      <p class="value"><span id="value-squat">--</span></p>
-    </div>
-    <div class="card">
-      <h2>Bench</h2>
-      <p class="value"><span id="value-bench">--</span></p>
-    </div>
-    <div class="card">
-      <h2>Deadlift</h2>
-      <p class="value"><span id="value-deadlift">--</span></p>
-    </div>
+    <a class="card-link" href="squat.html">
+      <div class="card clickable">
+        <h2>Squat</h2>
+        <p class="value"><span id="value-squat">--</span></p>
+      </div>
+    </a>
+    <a class="card-link" href="bench.html">
+      <div class="card clickable">
+        <h2>Bench</h2>
+        <p class="value"><span id="value-bench">--</span></p>
+      </div>
+    </a>
+    <a class="card-link" href="deadlift.html">
+      <div class="card clickable">
+        <h2>Deadlift</h2>
+        <p class="value"><span id="value-deadlift">--</span></p>
+      </div>
+    </a>
     <div class="card">
       <h2>Weight</h2>
       <p class="value"><span id="value-weight">--</span><span id="weight-trend"></span></p>
@@ -66,6 +72,7 @@
 
 </main>
 
+<script src="config.js"></script>
 <script src="app.js"></script>
 </body>
 </html>

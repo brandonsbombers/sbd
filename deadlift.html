@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Deadlift Percentages</title>
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<header>
+  <a class="back-link" href="index.html">&larr; Back</a>
+  <h1>Deadlift Percentages</h1>
+</header>
+
+<main>
+
+  <table class="pct-table">
+    <thead>
+      <tr>
+        <th>Percentage</th>
+        <th>Weight</th>
+      </tr>
+    </thead>
+    <tbody id="pct-table-body"></tbody>
+  </table>
+
+  <p id="status-msg"></p>
+
+</main>
+
+<script src="config.js"></script>
+<script src="percentages.js"></script>
+<script>
+  document.addEventListener("DOMContentLoaded", function () {
+    loadPercentages("deadlift");
+  });
+</script>
+</body>
+</html>

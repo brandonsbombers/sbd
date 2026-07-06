@@ -1,80 +1,76 @@
 # SBD Training Max Tracker
 
 A tiny, no-frills static site that shows your current training maxes (Squat,
-Bench, Deadlift) and body weight, and lets you push new numbers to your
-Google Apps Script API. Hosted for free on GitHub Pages.
+Bench, Deadlift) and body weight, lets you push new numbers to your Google
+Apps Script API, and shows a percentage breakdown table for each lift.
+Hosted for free on GitHub Pages.
 
-This repo contains **only the static frontend** (`index.html`, `style.css`,
-`app.js`). All data lives in your Google Sheet and is read/written through
-your Apps Script API endpoint — this site never talks to Google Sheets
-directly and never stores a GitHub token.
+This repo contains **only the static frontend**. All data lives in your
+Google Sheet and is read/written through your Apps Script API endpoint —
+this site never talks to Google Sheets directly and never stores a GitHub
+token.
 
 ## Files
 
-- `index.html` — page structure (dashboard cards + update form)
+- `index.html` — dashboard cards + update form
+- `squat.html`, `bench.html`, `deadlift.html` — percentage breakdown pages
 - `style.css` — dark theme styling
-- `app.js` — fetches the dashboard from the API and sends updates
+- `config.js` — shared config (Apps Script API URL)
+- `app.js` — dashboard load + update logic for the home page
+- `percentages.js` — percentage breakdown table logic
 - `README.md` — this file
 
 ## How the site works
 
-**Viewing (`https://brandonsbombers.github.io/sbd/`)**
+**Home page (`https://brandonsbombers.github.io/sbd/`)**
 - On load, the page sends a `GET` request to your Apps Script API.
 - It displays `squat`, `bench`, `deadlift`, and `weight` from the
-  `dashboard` object in the response.
-- Any `null` value is shown as `--`.
+  `dashboard` object in the response. `null` values show as `--`.
 - The weight card shows a red down arrow if `weightTrend` is `"down"`,
   a green up arrow if `"up"`, and no arrow if `"none"`.
+- The Squat, Bench, and Deadlift cards are tappable and link to their
+  percentage breakdown page. The Weight card is not clickable.
 
-**Updating (`https://brandonsbombers.github.io/sbd/#ff`)**
-- Adding `#ff` to the end of the URL enables the four "Update" buttons.
-- Without `#ff` in the URL, the buttons are disabled (grey/blue —
-  Dusty Denim `#5B85AA`) and cannot be clicked.
-- With `#ff` in the URL, the buttons are enabled (orange —
-  Tiger Orange `#F46036`).
-- Clicking an Update button sends a `POST` request like:
+**Percentage pages (`squat.html`, `bench.html`, `deadlift.html`)**
+- Each page loads fresh from the API every time it opens (or is
+  refreshed) — nothing is cached between visits.
+- Each shows a two-column table: **Percentage** (100% down to 50%, in 5%
+  steps) and **Weight**, calculated from that lift's current training max.
+- Weight is rounded to the nearest 2.5 lb, since that's what you'd
+  actually load on the bar — not the exact mathematical percentage.
+- If a lift has no training max on file yet, the page says so instead of
+  showing an empty table.
+
+**Update mode (`https://brandonsbombers.github.io/sbd/#ff`)**
+- Adding `#ff` to the end of the *home page* URL enables the four
+  "Update" buttons (Dusty Denim `#5B85AA` when disabled, Tiger Orange
+  `#F46036` when enabled).
+- Clicking Update sends a `POST` request like:
 
   ```json
   { "secret": "ff", "type": "squat", "value": 135 }
   ```
 
   Valid `type` values: `squat`, `bench`, `deadlift`, `body weight`.
-- The frontend does **not** round anything — your Apps Script handles
-  barbell rounding for squat/bench/deadlift.
+- The frontend does **not** round anything on update — your Apps Script
+  handles barbell rounding for squat/bench/deadlift.
 
 > Note: `#ff` in the URL is a convenience gate to hide the input UI from
-> casual visitors, not real security. Anyone who knows (or guesses) the
-> hash, or opens dev tools, can still see/trigger update calls. If you
-> need real access control, that has to live in the Apps Script itself
-> (e.g. checking the `secret` field server-side, which it looks like you
-> already do).
+> casual visitors, not real security.
 
 ## Enabling GitHub Pages
 
 1. Go to the repo on GitHub: `https://github.com/brandonsbombers/sbd`
-2. Click **Settings** → **Pages** (left sidebar).
+2. **Settings** → **Pages**.
 3. Under **Build and deployment** → **Source**, choose **Deploy from a
-   branch**.
-4. Set **Branch** to `main` and folder to `/ (root)`. Click **Save**.
-5. After a minute or two, GitHub will show your live URL, typically:
-   `https://brandonsbombers.github.io/sbd/`
+   branch**. Branch `main`, folder `/ (root)`. **Save**.
+4. Live URL: `https://brandonsbombers.github.io/sbd/`
 
-You only need to do this once. After that, every time the Colab notebook
-pushes new files to `main`, GitHub Pages redeploys automatically.
+## Deploying updates from Colab
 
-## Using the Colab notebook to deploy updates
-
-1. Open the notebook in Google Colab.
-2. In the left sidebar, click the key icon (**Secrets**) and add a secret
-   named exactly `sbd-tracker` with your GitHub Personal Access Token as
-   the value. Make sure notebook access is toggled on for that secret.
-3. Run all cells top to bottom. The notebook will:
-   - read the token from Colab Secrets (never hard-coded),
-   - clone/pull `https://github.com/brandonsbombers/sbd`,
-   - (re)write `index.html`, `style.css`, `app.js`, and this `README.md`,
-   - commit and push the changes to `main`.
-4. GitHub Pages will pick up the new files automatically within a minute
-   or so of the push.
+Run the Colab notebook top to bottom. It reads your GitHub token from the
+Colab secret `sbd-tracker` (never hard-coded), syncs the repo, rewrites the
+site files, and pushes only if something changed.
 
 ## Apps Script CORS note
 
@@ -92,5 +88,8 @@ which works regardless of the declared content type.
 
 ## URLs at a glance
 
-- **View site:** `https://brandonsbombers.github.io/sbd/`
+- **Home / view:** `https://brandonsbombers.github.io/sbd/`
 - **Update mode:** `https://brandonsbombers.github.io/sbd/#ff`
+- **Squat percentages:** `https://brandonsbombers.github.io/sbd/squat.html`
+- **Bench percentages:** `https://brandonsbombers.github.io/sbd/bench.html`
+- **Deadlift percentages:** `https://brandonsbombers.github.io/sbd/deadlift.html`
