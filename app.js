@@ -221,7 +221,7 @@ async function loadCardioCharts() {
     });
 
     renderDonut("weekly-donut", weeklyMinutes, 140, "min");
-    renderDonut("monthly-donut", monthlyCalories, 1400, "cal");
+    renderDonut("monthly-donut", monthlyCalories, 14000, "cal");
   } catch (err) {
     console.error("Failed to load cardio charts:", err);
   }
