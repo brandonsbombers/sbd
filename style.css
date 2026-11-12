@@ -5,6 +5,7 @@
   --card-border: #5B85AA;
   --text: #FFFAFA;
   --disabled: #5B85AA;
+  --overflow: #2ecc71;
 }
 
 * {
@@ -256,6 +257,14 @@ a.card-link {
 .donut-progress {
   fill: none;
   stroke: var(--button);
+  stroke-width: 14;
+  stroke-linecap: round;
+  transition: stroke-dashoffset 0.4s ease;
+}
+
+.donut-overlay {
+  fill: none;
+  stroke: var(--overflow);
   stroke-width: 14;
   stroke-linecap: round;
   transition: stroke-dashoffset 0.4s ease;

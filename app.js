@@ -177,10 +177,32 @@ function renderDonut(containerId, value, goal, unit) {
   const container = document.getElementById(containerId);
   if (!container) return;
 
-  const pct = goal > 0 ? Math.min(value / goal, 1) : 0;
   const radius = 54;
   const circumference = 2 * Math.PI * radius;
-  const offset = circumference * (1 - pct);
+
+  const totalLaps = goal > 0 ? value / goal : 0;
+  const fullLaps = Math.floor(totalLaps);
+  const remainder = totalLaps - fullLaps; // 0..1 fraction of the lap in progress
+
+  let baseOffset;
+  let overlayCircle = "";
+
+  if (fullLaps === 0) {
+    // Under goal: single partial arc, same as before.
+    const pct = Math.min(remainder, 1);
+    baseOffset = circumference * (1 - pct);
+  } else {
+    // Goal reached at least once: base ring is a full solid circle,
+    // and a second "lap" ring sweeps from the top to show progress
+    // into the next 100%, Apple Watch-style.
+    baseOffset = 0;
+    if (remainder > 0) {
+      const overlayOffset = circumference * (1 - remainder);
+      overlayCircle =
+        '<circle class="donut-overlay" cx="70" cy="70" r="' + radius +
+        '" stroke-dasharray="' + circumference + '" stroke-dashoffset="' + overlayOffset + '"></circle>';
+    }
+  }
 
   const roundedValue = Math.round(value * 10) / 10;
   const displayValue = Number.isInteger(roundedValue) ? roundedValue : roundedValue.toFixed(1);
@@ -189,7 +211,8 @@ function renderDonut(containerId, value, goal, unit) {
     '<svg viewBox="0 0 140 140" class="donut-svg">' +
       '<circle class="donut-track" cx="70" cy="70" r="' + radius + '"></circle>' +
       '<circle class="donut-progress" cx="70" cy="70" r="' + radius +
-        '" stroke-dasharray="' + circumference + '" stroke-dashoffset="' + offset + '"></circle>' +
+        '" stroke-dasharray="' + circumference + '" stroke-dashoffset="' + baseOffset + '"></circle>' +
+      overlayCircle +
     "</svg>" +
     '<div class="donut-label">' + displayValue + " / " + goal + " " + unit + "</div>";
 }
