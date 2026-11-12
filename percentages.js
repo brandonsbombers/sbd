@@ -3,13 +3,16 @@ function roundToNearestPlate(value) {
 }
 
 function formatWeight(w) {
-  // Show whole numbers without a trailing ".0"
   return Number.isInteger(w) ? String(w) : w.toFixed(1);
+}
+
+function setStatus(msg) {
+  const el = document.getElementById("status-msg");
+  if (el) el.textContent = msg;
 }
 
 async function loadPercentages(liftKey) {
   const tableBody = document.getElementById("pct-table-body");
-  const statusEl = document.getElementById("status-msg");
 
   try {
     const res = await fetch(API_URL, { method: "GET" });
@@ -48,9 +51,4 @@ async function loadPercentages(liftKey) {
     console.error("Failed to load percentages:", err);
     setStatus("Could not load data.");
   }
-}
-
-function setStatus(msg) {
-  const el = document.getElementById("status-msg");
-  if (el) el.textContent = msg;
 }

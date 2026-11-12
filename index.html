@@ -3,13 +3,13 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Training Maxes (TM)</title>
-<link rel="stylesheet" href="style.css?v=1783352115">
+<title>Progress Tracker</title>
+<link rel="stylesheet" href="style.css?v=1794515712">
 </head>
 <body>
 
 <header>
-  <h1>Training Maxes (TM)</h1>
+  <h1>Progress Tracker</h1>
 </header>
 
 <main>
@@ -39,40 +39,77 @@
     </div>
   </section>
 
-  <section class="update-section">
-    <h2>Enter New TM</h2>
+  <section class="forms-grid">
 
-    <div class="input-row">
-      <label for="input-squat">Squat</label>
-      <input type="number" id="input-squat" inputmode="decimal" placeholder="Enter squat">
-      <button class="update-btn" data-type="squat">Update</button>
+    <div class="update-section half">
+      <h2>Enter New TM</h2>
+
+      <div class="input-row">
+        <label for="input-squat">Squat</label>
+        <input type="number" id="input-squat" inputmode="decimal" placeholder="Enter squat">
+        <button class="update-btn" data-type="squat">Update</button>
+      </div>
+
+      <div class="input-row">
+        <label for="input-bench">Bench</label>
+        <input type="number" id="input-bench" inputmode="decimal" placeholder="Enter bench">
+        <button class="update-btn" data-type="bench">Update</button>
+      </div>
+
+      <div class="input-row">
+        <label for="input-deadlift">Deadlift</label>
+        <input type="number" id="input-deadlift" inputmode="decimal" placeholder="Enter deadlift">
+        <button class="update-btn" data-type="deadlift">Update</button>
+      </div>
+
+      <div class="input-row">
+        <label for="input-weight">Weight</label>
+        <input type="number" id="input-weight" inputmode="decimal" placeholder="Enter body weight">
+        <button class="update-btn" data-type="body weight">Update</button>
+      </div>
     </div>
 
-    <div class="input-row">
-      <label for="input-bench">Bench</label>
-      <input type="number" id="input-bench" inputmode="decimal" placeholder="Enter bench">
-      <button class="update-btn" data-type="bench">Update</button>
-    </div>
+    <div class="cardio-section">
+      <h2>Enter Cardio</h2>
 
-    <div class="input-row">
-      <label for="input-deadlift">Deadlift</label>
-      <input type="number" id="input-deadlift" inputmode="decimal" placeholder="Enter deadlift">
-      <button class="update-btn" data-type="deadlift">Update</button>
-    </div>
+      <div class="input-row">
+        <label for="input-cardio-duration">Duration (min)</label>
+        <input type="number" id="input-cardio-duration" inputmode="decimal" placeholder="e.g. 31">
+      </div>
 
-    <div class="input-row">
-      <label for="input-weight">Weight</label>
-      <input type="number" id="input-weight" inputmode="decimal" placeholder="Enter body weight">
-      <button class="update-btn" data-type="body weight">Update</button>
+      <div class="input-row">
+        <label for="input-cardio-distance">Distance (mi)</label>
+        <input type="number" id="input-cardio-distance" inputmode="decimal" placeholder="e.g. 2.3">
+      </div>
+
+      <div class="input-row">
+        <label for="input-cardio-calories">Calories</label>
+        <input type="number" id="input-cardio-calories" inputmode="decimal" placeholder="e.g. 459">
+      </div>
+
+      <button id="log-cardio-btn" class="update-btn btn-block">Log Cardio</button>
     </div>
 
   </section>
 
   <p id="status-msg"></p>
 
+  <section class="charts-section">
+    <div class="charts-grid">
+      <div class="chart-card">
+        <h3>This Week's Cardio</h3>
+        <div class="donut-wrap" id="weekly-donut"></div>
+      </div>
+      <div class="chart-card">
+        <h3>This Month's Calories</h3>
+        <div class="donut-wrap" id="monthly-donut"></div>
+      </div>
+    </div>
+  </section>
+
 </main>
 
-<script src="config.js?v=1783352115"></script>
-<script src="app.js?v=1783352115"></script>
+<script src="config.js?v=1794515712"></script>
+<script src="app.js?v=1794515712"></script>
 </body>
 </html>
